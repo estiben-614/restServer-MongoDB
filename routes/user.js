@@ -1,6 +1,7 @@
 import express from "express"
 import { usuariosDelete, usuariosGet, usuariosPost, usuariosPut } from "../controllers/user.controlers.js"
 
+import { body,validationResult } from "express-validator"
 export const router=express.Router()
 
 
@@ -11,6 +12,6 @@ router.get('/', usuariosGet)
 
   router.put('/:id',usuariosPut)
   
-  router.post('/',usuariosPost)
+  router.post('/',[body('correo').isEmail()],usuariosPost)
 
   router.delete('/', usuariosDelete)

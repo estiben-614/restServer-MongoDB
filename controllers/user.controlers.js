@@ -1,5 +1,7 @@
 import { request, response } from "express"
 import { Usuario } from "../models/usuario.js"
+import  bcrypt from "bcrypt"
+import { validationResult } from "express-validator"
 
 //const{ response}=requiere('express')
 
@@ -29,11 +31,40 @@ export const usuariosPut=(req, res=response) => {
   }
 
 export const usuariosPost=async (req, res=response) => {
+
+    //Error al validar si es un email
+    const errors=validationResult(req)
+    if (!errors.isEmpty()) {
+        return res.status(400).json({ errors: errors.array() });
+      }
+
     //Me recibe la info del post
     
-    const body=req.body
+    //const body=req.body
+    //const usuario=new Usuario(body)
+
+    const {nombre,correo,password,role}=req.body
     //Se exporta la data del body a la BD
-    const usuario=new Usuario(body)
+    //{nombre,correo...}Debido a que se envia es un objeto, no es desestructuracion
+    //usuario es un objeto
+    const usuario=new Usuario({nombre,correo,password,role})
+
+    
+    //Verificar si el email existe --> Recordar que Usuario es la info cargada a la BD
+    const emailexist=await Usuario.findOne({correo})
+        //Si el email ya existe
+    if(emailexist){
+        return res.status(400).json({
+            msg:'El email ya fue registrado'
+        })
+    }
+
+    //Encriptar la contraseña
+    const salt=bcrypt.genSaltSync()
+        //La encriptacion se guarda en el password del usuario
+    usuario.password=bcrypt.hashSync(password,salt)
+
+    //Guarda la data en la DB
     await usuario.save()
 
     //const {nombre,edad}=req.body

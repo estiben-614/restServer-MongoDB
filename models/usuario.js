@@ -41,6 +41,7 @@ const UsuarioSchema=mongoose.Schema({
 
 })
 
+//Recibe el nombre del modelo y un esquema con la data 
 
 //module.exports= model('usuario',UsuarioSchema)
 export const Usuario=mongoose.model('Usuarios',UsuarioSchema)
