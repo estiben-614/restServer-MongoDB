@@ -55,7 +55,7 @@ export const usuariosPost=async (req, res=response) => {
         //Si el email ya existe
     if(emailexist){
         return res.status(400).json({
-            msg:'El email ya fue Registrado'
+            msg:'El email ya fue registrado'
         })
     }
 
