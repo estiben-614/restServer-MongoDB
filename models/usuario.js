@@ -25,7 +25,7 @@ const UsuarioSchema=mongoose.Schema({
         type:String,
         required:true,
         //Para comparar que el usuario solo sea uno de los siguientes
-        enum:['ADMIN_ROLE','USER_ROLE']
+        //enum:['ADMIN_ROLE','USER_ROLE']
     },
 
     estado:{
@@ -44,7 +44,11 @@ const UsuarioSchema=mongoose.Schema({
 //Recibe el nombre del modelo y un esquema con la data 
 
 //module.exports= model('usuario',UsuarioSchema)
-export const Usuario=mongoose.model('Usuarios',UsuarioSchema)
+
+//En este caso, la colección en Mongo tendrá como nombre (roles)
+//La funcion model crea una colección con un nombre en plural y en minisculas del ingresado
+
+export const Usuario=mongoose.model('Usuario',UsuarioSchema)
 
 // const Usuario = model('Usuario', usuarioSchema);
 // export {

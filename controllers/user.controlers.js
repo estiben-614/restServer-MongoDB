@@ -40,6 +40,7 @@ export const usuariosPost=async (req, res=response) => {
     //const usuario=new Usuario(body)
 
     const {nombre,correo,password,role}=req.body
+    
     //Se exporta la data del body a la BD
     //{nombre,correo...}Debido a que se envia es un objeto, no es desestructuracion
     //usuario es un objeto
