@@ -32,11 +32,7 @@ export const usuariosPut=(req, res=response) => {
 
 export const usuariosPost=async (req, res=response) => {
 
-    //Error al validar si es un email
-    const errors=validationResult(req)
-    if (!errors.isEmpty()) {
-        return res.status(400).json({ errors: errors.array() });
-      }
+   
 
     //Me recibe la info del post
     
