@@ -1,6 +1,6 @@
 #Webserver + RestServer + MongoDB
 
-Bievenidos a mi RestServer usando ES6
+Bievenidos a mi RestServer usando ES6 (ES Modules)
 
 Para ejecutar, primero instalar las dependencias de node usando  ```npm install ```
 
