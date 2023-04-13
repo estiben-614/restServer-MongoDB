@@ -1,31 +1,23 @@
 import express from "express"
 import { usuariosDelete, usuariosGet, usuariosPost, usuariosPut } from "../controllers/user.controlers.js"
-
-import { body,validationResult } from "express-validator"
+import { body,param } from "express-validator"
 import { validarCampos } from "../middlewares/validar_campos.js"
-import { Role } from "../models/role.js"
+import { correoValido, esRoleValido, existeUsuarioPorId } from "../helpers/db-validators.js"
 export const router=express.Router()
 
 
-// import { Router } from "express"
 
-// export const router=Router()
 router.get('/', usuariosGet)
 
-  router.put('/:id',usuariosPut)
+  router.put('/:id',[param('id','No es un ID válido ').isMongoId().custom(existeUsuarioPorId),
+            validarCampos],usuariosPut)
   //Si el nombre está vacio o el correo no tiene formato email se lanzan esas alertas
-  router.post('/',[body('correo','El correo no es válido').isEmail(),
-                   body('nombre','El nombre es obligatorio').not().isEmpty(),
+  router.post('/',[body('correo','El correo no es válido').isEmail().custom(correoValido),
+                  body('nombre','El nombre es obligatorio').not().isEmpty(),
                    body('password','La contraseña es obligatoria y debe ser mayor a 6 letras').isLength({min:6}).not().isEmpty(),
-                   //body('role','No es un rol permitido').isIn(['ADMIN_ROLE','USER_ROLE']),
-                  //Para validar que el ROL está dentro de la coleccion roles
-                   body('role').custom(async(role='')=> {
-                      const existeRol= await Role.findOne({role})
-                      if (!existeRol){
-                        throw new Error( `El rol ${role} no está registrado en la BD`)
-                      }
-                   }),
+                   body('role').custom(esRoleValido),
                   validarCampos],
                   usuariosPost)
 
-  router.delete('/', usuariosDelete)
+  router.delete('/:id',[param('id','No es un ID válido ').isMongoId().custom(existeUsuarioPorId),
+  validarCampos], usuariosDelete)

@@ -41,27 +41,15 @@ const UsuarioSchema=mongoose.Schema({
 
 })
 
-//Recibe el nombre del modelo y un esquema con la data 
+//No mostrar el password, __v y unificar los demas en uno
+//llamado usuario
 
-//module.exports= model('usuario',UsuarioSchema)
+UsuarioSchema.methods.toJSON= function(){
+    const {_id,__v,password, ...usuario}=this.toObject()
+    return usuario
+}
 
 //En este caso, la colección en Mongo tendrá como nombre (roles)
 //La funcion model crea una colección con un nombre en plural y en minisculas del ingresado
 
 export const Usuario=mongoose.model('Usuario',UsuarioSchema)
-
-// const Usuario = model('Usuario', usuarioSchema);
-// export {
-//    Usuario 
-// } 
-
-
-// {
-//     "nombre":"test1",
-//     "google":true,
-//     "nuevoCampo":true,
-//     "correo":"test1@test.com",
-//     "password":"123456",
-//     "role":"USER_ROLE"
-    
-// }

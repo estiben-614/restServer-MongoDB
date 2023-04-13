@@ -3,30 +3,45 @@ import { Usuario } from "../models/usuario.js"
 import  bcrypt from "bcrypt"
 import { validationResult } from "express-validator"
 
-//const{ response}=requiere('express')
-
-//const Usuario=require("../models/usuario.js")
  
-export const usuariosGet=(req=request, res=response) => {
-    //http://localhost:8080/api/usuarios?q=Hola&Nombre=Estiben&Ocupacion=Estudiante
-    const {q,Nombre,Ocupacion,page='1-default'}=req.query
-    res.json({
-        ok:true,
-        msg:'get API- Controlador',
-        q,
-        Nombre,
-        Ocupacion,
-        page
-    })
+export const usuariosGet=async(req=request, res=response) => {
+    
+    //http://localhost:8080/api/usuarios?desde=2&limite=3
+    //Si no introduce un query de limite, solo se mostraran 2
+    const {limite=2,desde}=req.query
+
+    //Se puede ejecutar cada una con su await, pero pueden chocar las promesas
+    //Con esto se ejecutan a la vez
+    const [total,Usuarios]=await Promise.all([
+        Usuario.countDocuments({estado:true}),
+        Usuario.find({estado:true})
+        .limit(Number(limite))
+        .skip(Number(desde))
+
+    ])
+    res.json({total,Usuarios})
 }
 
-export const usuariosPut=(req, res=response) => {
+export const usuariosPut=async(req, res=response) => {
 
     const {id}=req.params
+    const {password,google,correo,...resto}=req.body
+
+    //Validar contra BD
+    if(password){
+         //Encriptar la contraseña
+    const salt=bcrypt.genSaltSync()
+    //La encriptacion se guarda en el password del usuario
+    resto.password=bcrypt.hashSync(password,salt)
+    }
+    
+    //Busquelo por el id y actualicelo por lo que hay en resto 
+    const usuario= await Usuario.findByIdAndUpdate(id,resto)
     res.status(400).json({
         ok:true,
         msg:'put API- Controlador',
-        id
+        //id
+        usuario
     })
   }
 
@@ -42,41 +57,39 @@ export const usuariosPost=async (req, res=response) => {
     const {nombre,correo,password,role}=req.body
     
     //Se exporta la data del body a la BD
-    //{nombre,correo...}Debido a que se envia es un objeto, no es desestructuracion
-    //usuario es un objeto
+    //Recordar que nombre,correo, etc se introducen en el POST
     const usuario=new Usuario({nombre,correo,password,role})
 
-    
-    //Verificar si el email existe --> Recordar que Usuario es la info cargada a la BD
-    const emailexist=await Usuario.findOne({correo})
-        //Si el email ya existe
-    if(emailexist){
-        return res.status(400).json({
-            msg:'El email ya fue Registrado'
-        })
-    }
-
-    //Encriptar la contraseña
     const salt=bcrypt.genSaltSync()
-        //La encriptacion se guarda en el password del usuario
     usuario.password=bcrypt.hashSync(password,salt)
 
     //Guarda la data en la DB
-    await usuario.save()
-
-    //const {nombre,edad}=req.body
+    const datosGuardados=await usuario.save()
+    //Mostrar el ID de la BD en usuario
+    const id_user=datosGuardados._id
+    
     res.status(200).json({
         ok:true,
         msg:'post API- Controlador',
-        //body
-        //nombre,
-        usuario
+        usuario,
+        id_user
+        
     })
   }
 
-  export const usuariosDelete=(req, res=response) => {
+  export const usuariosDelete=async(req, res=response) => {
+
+    //Obtiene el id del query
+    const {id}=req.params
+
+    //Borrar fisicamente
+    //const usuario=await Usuario.findByIdAndDelete(id)
+    
+    //Borrar cambiando de estado
+    const usuario=await Usuario.findByIdAndUpdate(id,{estado:false})
     res.status(400).json({
         ok:true,
-        msg:'delete API- Controlador'
+        msg:'delete API- Controlador',
+        usuario
     })
   }
