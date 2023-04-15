@@ -65,14 +65,13 @@ export const usuariosPost=async (req, res=response) => {
 
     //Guarda la data en la DB
     const datosGuardados=await usuario.save()
-    //Mostrar el ID de la BD en usuario
-    const id_user=datosGuardados._id
+    
     
     res.status(200).json({
         ok:true,
         msg:'post API- Controlador',
         usuario,
-        id_user
+        
         
     })
   }

@@ -45,7 +45,7 @@ const UsuarioSchema=mongoose.Schema({
 //llamado usuario
 
 UsuarioSchema.methods.toJSON= function(){
-    const {_id,__v,password, ...usuario}=this.toObject()
+    const {__v,password, ...usuario}=this.toObject()
     return usuario
 }
 
