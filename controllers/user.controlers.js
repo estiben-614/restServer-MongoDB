@@ -86,9 +86,12 @@ export const usuariosPost=async (req, res=response) => {
     
     //Borrar cambiando de estado
     const usuario=await Usuario.findByIdAndUpdate(id,{estado:false})
+    
+    const usuarioAutenticado=req.usuario
     res.status(400).json({
         ok:true,
         msg:'delete API- Controlador',
-        usuario
+        usuario,
+        usuarioAutenticado
     })
   }

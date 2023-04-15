@@ -1,8 +1,15 @@
 import express from "express"
 import { usuariosDelete, usuariosGet, usuariosPost, usuariosPut } from "../controllers/user.controlers.js"
 import { body,param } from "express-validator"
+
+//Middlewares
+import { validarJWT } from "../middlewares/validarJWT.js"
+import { esAdminRole, tieneRol } from "../middlewares/validar_rol.js"
 import { validarCampos } from "../middlewares/validar_campos.js"
+
 import { correoValido, esRoleValido, existeUsuarioPorId } from "../helpers/db-validators.js"
+
+
 export const router=express.Router()
 
 
@@ -19,5 +26,10 @@ router.get('/', usuariosGet)
                   validarCampos],
                   usuariosPost)
 
-  router.delete('/:id',[param('id','No es un ID válido ').isMongoId().custom(existeUsuarioPorId),
+  //DELETE ES LA UNICA PETICION QUE NECESITA SER AUTENTICADA (validarJWT)
+  //Se ejecutan en orden, por eso primero se valida el JWT, si no pasa la validación, no sigue
+  router.delete('/:id',[validarJWT,
+                        //esAdminRole,
+                        tieneRol('ADMIN_ROLE','VENTAS_ROLE'),
+                        param('id','No es un ID válido ').isMongoId().custom(existeUsuarioPorId),
   validarCampos], usuariosDelete)
