@@ -3,6 +3,7 @@ import cors from "cors"
 
 import { router } from "../routes/user.js   ";
 import { dbConnection } from "../database/config.js";
+import { routerAuth } from "../routes/auth.js";
 
 export class Server{
     constructor(){
@@ -14,7 +15,7 @@ export class Server{
         this.conectarDB()
 
         this.usuariosPath='/api/usuarios'
-
+        this.authPath='/api/auth'
         //Middlewares : Funciones que se van a levantar cuando se ejecute el servidor 
         this.middelwares()
         
@@ -37,6 +38,7 @@ export class Server{
     }
 
     routes(){
+        this.app.use(this.authPath,routerAuth)
         this.app.use(this.usuariosPath,router)
     }
 
