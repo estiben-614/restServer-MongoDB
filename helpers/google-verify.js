@@ -12,6 +12,10 @@ export async function googleVerify(token='') {
   //const payload = ticket.getPayload();     //Trae toda la info del usuario
 
   const {name,picture,email}=ticket.getPayload()
-  return {name,picture,email}
+
+  return {nombre:name,
+    correo:email,
+    imagen:picture}
+
   
 }

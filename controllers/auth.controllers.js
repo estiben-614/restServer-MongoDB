@@ -62,8 +62,7 @@ export const googleSigIn=async(req=request,res=response)=>{
     const {id_token}=req.body
     //id_token contiene toda la info del usuario 
     try {
-        const {name,email,picture}=await googleVerify(id_token)
-        const correo=email
+        const {nombre,correo,imagen}=await googleVerify(id_token)
         //Verifica en DB si hay un usuario con el correo de google
         let  usuario= await  Usuario.findOne({correo})
         
@@ -73,15 +72,15 @@ export const googleSigIn=async(req=request,res=response)=>{
             //Lo creamos
 
             const data={
-                nombre:name,
-                correo:email,
+                nombre,
+                correo,
                 password:':p',
                 google:true,
                 role:'USER_ROLE',
-                picture
+                imagen
             }
             //Lo creamos
-            const usuario=new Usuario(data)
+            usuario=new Usuario(data)
             //lo guardamos
             await usuario.save()
             console.log(`Usuario ${usuario.nombre} creado`)
@@ -90,7 +89,7 @@ export const googleSigIn=async(req=request,res=response)=>{
         //Si existe, validar que su estado sea diferente a false
         if(usuario.estado==false){
             return res.status(401).json({
-                mag:'Hable con el administrador,usuario bloqueado'
+                msg:'Hable con el administrador,usuario bloqueado'
             })
         }
 
@@ -103,7 +102,7 @@ export const googleSigIn=async(req=request,res=response)=>{
     } 
     catch (error) {
         console.log(error)
-             res.status(400).json({
+             return res.status(400).json({
                 msg:'El token no se puede validar'
             })
     }
