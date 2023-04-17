@@ -1,4 +1,4 @@
-#Webserver + RestServer + MongoDB + JWS
+#Webserver + RestServer + MongoDB + JWS + Google
 
 Bievenidos a mi RestServer usando ES6 (ES Modules)
 
@@ -17,7 +17,7 @@ Para crear un usuario,  use una petición POST a la dirección ```http://localho
 
 
  
-    
+Para crear un usuario con su información inicie sesión con su cuenta de Google desde ```http://localhost:8080```
 
 Para ver todos los usuarios ingresados, use  las peticiones GET y que tienen los siguientes QUERY opcionales ```http://localhost:8080?desde=' '&limite= '   ' ```
 
@@ -31,4 +31,4 @@ Para modificar y eliminar un usuario a partir de su ID, use  las peticiones PUT 
 
 Para tener en cuenta, solo los usuarios con ```Role: ADMIN_ROLE,VENTAS_ROLE``` pueden realizar solicitudes DELETE
 
-
+Peticiones postman: https://documenter.getpostman.com/view/26573688/2s93Xzw2Sb#e02cc01e-e2b3-4a97-8b33-5e3bcb6f99e5
