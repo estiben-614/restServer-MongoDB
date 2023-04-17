@@ -1,4 +1,4 @@
-#Webserver + RestServer + MongoDB + JWS
+#Webserver + RestServer + MongoDB + JWS + Google
 
 Bievenidos a mi RestServer usando ES6 (ES Modules)
 
@@ -17,7 +17,7 @@ Para crear un usuario,  use una petición POST a la dirección ```http://localho
 
 
  
-    
+Para crear un usuario con su información inicie sesión con su cuenta de Google desde ```http://localhost:8080```
 
 Para ver todos los usuarios ingresados, use  las peticiones GET y que tienen los siguientes QUERY opcionales ```http://localhost:8080?desde=' '&limite= '   ' ```
 
