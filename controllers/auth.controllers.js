@@ -2,6 +2,7 @@ import express from "express"
 import { Usuario } from "../models/usuario.js"
 import  bcrypt from "bcrypt"
 import { generarJWT } from "../helpers/generarJWT.js"
+import { googleVerify } from "../helpers/google-verify.js"
 
 const {response,request}=express
 
@@ -12,7 +13,7 @@ export const login=async(req=request,res=response)=>{
     try{
 
         //verificar si el email existe -- Encuentra al usuario con el correo que se envio en el POST
-        const usuario= await Usuario.findOne({correo})
+        let  usuario= await Usuario.findOne({correo})
         //console.log(usuario)
         if(!usuario){
             return res.status(400).json({
@@ -36,7 +37,7 @@ export const login=async(req=request,res=response)=>{
             })
         }
 
-        //Generar Token
+        //Generar Token JWT
         const token= await generarJWT(usuario.id)
         console.log(usuario.id)
         console.log({token})
@@ -54,4 +55,57 @@ export const login=async(req=request,res=response)=>{
         })
     }
 
+}
+
+//GoogleSignIn y la info del token
+export const googleSigIn=async(req=request,res=response)=>{
+    const {id_token}=req.body
+    //id_token contiene toda la info del usuario 
+    try {
+        const {name,email,picture}=await googleVerify(id_token)
+        const correo=email
+        //Verifica en DB si hay un usuario con el correo de google
+        let  usuario= await  Usuario.findOne({correo})
+        
+        
+        //Si no existe ese correo
+        if(!usuario){
+            //Lo creamos
+
+            const data={
+                nombre:name,
+                correo:email,
+                password:':p',
+                google:true,
+                role:'USER_ROLE',
+                picture
+            }
+            //Lo creamos
+            const usuario=new Usuario(data)
+            //lo guardamos
+            await usuario.save()
+            console.log(`Usuario ${usuario.nombre} creado`)
+        }
+    
+        //Si existe, validar que su estado sea diferente a false
+        if(usuario.estado==false){
+            return res.status(401).json({
+                mag:'Hable con el administrador,usuario bloqueado'
+            })
+        }
+
+        //Generar Token JWT
+        const token= await generarJWT(usuario.id)
+        res.json({
+            usuario,
+                token
+        })
+    } 
+    catch (error) {
+        console.log(error)
+             res.status(400).json({
+                msg:'El token no se puede validar'
+            })
+    }
+    
 }
