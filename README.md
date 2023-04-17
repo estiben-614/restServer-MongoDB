@@ -31,4 +31,4 @@ Para modificar y eliminar un usuario a partir de su ID, use  las peticiones PUT 
 
 Para tener en cuenta, solo los usuarios con ```Role: ADMIN_ROLE,VENTAS_ROLE``` pueden realizar solicitudes DELETE
 
-
+Descripción postman: https://documenter.getpostman.com/view/26573688/2s93Xzw2Sb#e02cc01e-e2b3-4a97-8b33-5e3bcb6f99e5
