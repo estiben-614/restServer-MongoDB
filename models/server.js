@@ -4,6 +4,9 @@ import cors from "cors"
 import { router } from "../routes/user.js   ";
 import { dbConnection } from "../database/config.js";
 import { routerAuth } from "../routes/auth.js";
+import { routerCategorias } from "../routes/categorias.js";
+import { routerProductos } from "../routes/producto.js";
+import { routerBuscar } from "../routes/buscar.js";
 
 export class Server{
     constructor(){
@@ -14,8 +17,15 @@ export class Server{
         //Conectar  ala base de datos
         this.conectarDB()
 
-        this.usuariosPath='/api/usuarios'
-        this.authPath='/api/auth'
+        //rutas
+        this.paths={
+            auth:'/api/auth',
+            usuarios:'/api/usuarios',
+            categorias:'/api/categorias',
+            productos:'/api/productos',
+            buscar:'/api/buscar'
+        }
+       
         //Middlewares : Funciones que se van a levantar cuando se ejecute el servidor 
         this.middelwares()
         
@@ -38,8 +48,11 @@ export class Server{
     }
 
     routes(){
-        this.app.use(this.authPath,routerAuth)
-        this.app.use(this.usuariosPath,router)
+        this.app.use(this.paths.auth,routerAuth)
+        this.app.use(this.paths.usuarios,router)
+        this.app.use(this.paths.categorias,routerCategorias)
+        this.app.use(this.paths.productos,routerProductos)
+        this.app.use(this.paths.buscar,routerBuscar)
     }
 
     listen(){

@@ -1,6 +1,8 @@
 import mongoose from "mongoose"
 import { Role } from "../models/role.js"
 import { Usuario } from "../models/usuario.js"
+import { Categoria } from "../models/categoria.js"
+import { Producto } from "../models/producto.js"
 
 
 export const esRoleValido=async(role='')=> {
@@ -22,6 +24,24 @@ export const esRoleValido=async(role='')=> {
   console.log(id)
 
   if (!existeUsuario){
+    throw new Error( `El id ${id} no existe`)
+  }
+}
+
+//Validador de categoria
+export const existeCategoriaPorId=async(id)=>{
+  const existeCategoria= await Categoria.findById(id)
+
+  if (!existeCategoria){
+    throw new Error( `El id ${id} no existe`)
+  }
+}
+
+//Existe producto 
+export const existeProductoPorId=async(id)=>{
+  const existeProducto= await Producto.findById(id)
+
+  if (!existeProducto){
     throw new Error( `El id ${id} no existe`)
   }
 }

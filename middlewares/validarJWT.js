@@ -40,7 +40,7 @@ export const validarJWT=async (req=request,res=response,next)=>{
         })
     }
 
-    //Guardamos el usuario autenticado en la request
+    //Creamos una propiedad usuario en la request que contiene toda la data(uid,role,etc) del usuario atenticado 
     req.usuario=usuario
 
     next()

@@ -30,7 +30,7 @@ export const login=async(req=request,res=response)=>{
 
         //Verificar contraseña --Compara la contraseña del post con el guardado en la DB
         const validPassword= await bcrypt.compareSync(password,usuario.password)
-        console.log(validPassword)
+        //console.log(validPassword)
         if(!validPassword){
             return res.status(400).json({
                 msg:'Usuario/password incorrecto - password incorrecto'
@@ -39,8 +39,8 @@ export const login=async(req=request,res=response)=>{
 
         //Generar Token JWT
         const token= await generarJWT(usuario.id)
-        console.log(usuario.id)
-        console.log({token})
+        // console.log(usuario.id)
+        // console.log({token})
 
         res.json({
             msg:'login ok',

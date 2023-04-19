@@ -21,6 +21,7 @@ export const tieneRol=(...roles)=>{
 
     return (req=request,res=response,next)=>{
         //console.log(roles,req.usuario.role)
+                //Se consigue esta info de req.usuario.role gracias a validarJWT que se ejecuta primero
 
         if(!roles.includes(req.usuario.role)){
             return res.status(401).json({

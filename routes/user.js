@@ -22,7 +22,7 @@ router.get('/', usuariosGet)
   router.post('/',[body('correo','El correo no es válido').isEmail().custom(correoValido),
                   body('nombre','El nombre es obligatorio').not().isEmpty(),
                    body('password','La contraseña es obligatoria y debe ser mayor a 6 letras').isLength({min:6}).not().isEmpty(),
-                   body('role').custom(esRoleValido),
+                   body('role').custom((role)=>esRoleValido(role)),
                   validarCampos],
                   usuariosPost)
 
