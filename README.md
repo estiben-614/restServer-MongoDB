@@ -2,7 +2,8 @@
 
 Bievenidos a mi RestServer usando ES6 (ES Modules)
 
-Para las peticiones se recomienda usar POSTMAN
+Para las peticiones se recomienda leer la documentación del proyecto en POSTMAN donde se encontrará con mayor detalle cómo  realizar cada una de estas : 
+``` https://documenter.getpostman.com/view/26573688/2s93Xzw2Sb#e02cc01e-e2b3-4a97-8b33-5e3bcb6f99e5```
 
 Para ejecutar, primero instalar las dependencias de node usando  ```npm install ```
 
@@ -31,4 +32,6 @@ Para modificar y eliminar un usuario a partir de su ID, use  las peticiones PUT 
 
 Para tener en cuenta, solo los usuarios con ```Role: ADMIN_ROLE,VENTAS_ROLE``` pueden realizar solicitudes DELETE
 
-Peticiones postman: https://documenter.getpostman.com/view/26573688/2s93Xzw2Sb#e02cc01e-e2b3-4a97-8b33-5e3bcb6f99e5
+Adicional, se permite crear, actualizar, mostrar, y eliminar categorias de productos, y sus correspondientes productos, así como tambien permite realizar consultas de cada una de las colecciones de la BD
+
+
