@@ -29,7 +29,8 @@ const ProductoSchema=Schema({
         require:true
     },
     descripción:{ type:String},
-    disponible:{type:Boolean,default:true}
+    disponible:{type:Boolean,default:true},
+    img:{type:String}
 })
 
 //En este caso, la colección en Mongo tendrá como nombre (productos)

@@ -8,7 +8,7 @@ export const usuariosGet=async(req=request, res=response) => {
     
     //http://localhost:8080/api/usuarios?desde=2&limite=3
     //Si no introduce un query de limite, solo se mostraran 2
-    const {limite=2,desde}=req.query
+    const {limite,desde}=req.query
 
     //Se puede ejecutar cada una con su await, pero pueden chocar las promesas
     //Con esto se ejecutan a la vez

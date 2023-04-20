@@ -60,6 +60,7 @@ export const login=async(req=request,res=response)=>{
 //GoogleSignIn y la info del token
 export const googleSigIn=async(req=request,res=response)=>{
     const {id_token}=req.body
+    console.log(id_token)
     //id_token contiene toda la info del usuario 
     try {
         const {nombre,correo,imagen}=await googleVerify(id_token)
