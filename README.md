@@ -34,4 +34,5 @@ Para tener en cuenta, solo los usuarios con ```Role: ADMIN_ROLE,VENTAS_ROLE``` p
 
 Adicional, se permite crear, actualizar, mostrar, y eliminar categorias de productos, y sus correspondientes productos, así como tambien permite realizar consultas de cada una de las colecciones de la BD
 
+Por último, el webServer permite subir imagenes para cada producto o usuario a partir de su ID
 
